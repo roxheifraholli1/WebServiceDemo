@@ -4,20 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 
 namespace WebServiceDemo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TestController : ControllerBase
     {
-        // GET: api/<TestController>
+
+        //Method 1 : Returns web service name and list of endpoints
+        // GET: /info
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("/info")]
+        public IEnumerable<string> Info()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "Info" };
         }
+
+
 
         // GET api/<TestController>/5
         [HttpGet("{id}")]
