@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-
+using System.Xml;
 
 namespace WebServiceDemo.Controllers
 {
@@ -23,18 +23,40 @@ namespace WebServiceDemo.Controllers
         }
 
 
+       
+       
+        
 
-        // GET api/<TestController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        //Method 2 : Reads XML DATA and Converts them to JSON 
+        // POST /readXML
+        [HttpGet]
+        [Route("/readXML")]
+        [Produces("application/json")]
+        public string readXML()
         {
-            return "value";
-        }
+            string xml = @"<breakfast_menu>
+                       <food>
+                      <name>Belgian Waffles</name>
+                      <price>$5.95</price>
+                      <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+                      <calories>650</calories>
+                      </food>
+                      <food>
+                      <name>Strawberry Belgian Waffles</name>
+                      <price>$7.95</price>
+                      <description>Light Belgian waffles covered with strawberries and whipped cream</description>
+                      <calories>900</calories>
+                      </food>
+                      </breakfast_menu>";
 
-        // POST api/<TestController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+
+            string json = JsonConvert.SerializeXmlNode(doc);
+
+             return json;
         }
 
         
