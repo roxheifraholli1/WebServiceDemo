@@ -3,8 +3,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
+using WebServiceDemo.Models;
 
 
 namespace WebServiceDemo.Controllers
@@ -13,6 +17,9 @@ namespace WebServiceDemo.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+
+        public static readonly List<ServiceModel> services = new List<ServiceModel>();
+
 
         //Method 1 : Returns web service name and list of endpoints
         // GET: /info
@@ -61,16 +68,24 @@ namespace WebServiceDemo.Controllers
         }
 
 
+
+
+
         [HttpPost]
         [Produces("application/json")]
         [Route("/saveJSON")]
-        [Consumes("application/json")]
-        public string saveJSON([FromBody] string text)
+        public HttpResponseMessage saveJSON([FromBody] ServiceModel model)
         {
 
-           
+            if(ModelState.IsValid && model != null)
+            {
+                model.service = HttpUtility.HtmlEncode(model.service);
+                model.date = DateTime.Now;
+            }
+            return new HttpResponseMessage(HttpStatusCode.OK);
 
-            return text;
+
+
         }
 
     }
