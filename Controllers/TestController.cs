@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 
+
 namespace WebServiceDemo.Controllers
 {
     [Route("[controller]")]
@@ -23,9 +24,9 @@ namespace WebServiceDemo.Controllers
         }
 
 
-       
-       
-        
+
+
+
 
         //Method 2 : Reads XML DATA and Converts them to JSON 
         // POST /readXML
@@ -56,9 +57,21 @@ namespace WebServiceDemo.Controllers
 
             string json = JsonConvert.SerializeXmlNode(doc);
 
-             return json;
+            return json;
         }
 
-        
+
+        [HttpPost]
+        [Produces("application/json")]
+        [Route("/saveJSON")]
+        [Consumes("application/json")]
+        public string saveJSON([FromBody] string text)
+        {
+
+           
+
+            return text;
+        }
+
     }
 }
