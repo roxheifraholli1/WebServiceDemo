@@ -19,9 +19,6 @@ namespace WebServiceDemo.Controllers
     public class TestController : ControllerBase
     {
        
-        
-
-
 
         //Method 1 : Returns web service name and list of endpoints
         // GET: /info
@@ -95,6 +92,29 @@ namespace WebServiceDemo.Controllers
 
 
 
+        //Method 3 
+        //Method type : POST , Expects Json data at Post Body 
+        //returns Json object with date appended
+        [HttpPost]
+        [Produces("application/json")]
+        [Route("/saveJson")]
+        public IActionResult saveJson(ServiceModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var servicesList = new List<ServiceModel>
+            {
+                new ServiceModel
+                {
+                    service = model.service,
+                    date = DateTime.Now
+                }
+            };
+
+            return Ok(servicesList);
+        }
         
 
     }
