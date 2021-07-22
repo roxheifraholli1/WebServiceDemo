@@ -29,7 +29,7 @@ namespace WebServiceDemo
 
             services.AddControllers();
 
-
+            services.AddMvc();
 
             services.AddSwaggerGen(c =>
             {

@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+
 using System.Xml;
 using WebServiceDemo.Models;
 
@@ -17,17 +18,41 @@ namespace WebServiceDemo.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+       
+        
 
-        public static readonly List<ServiceModel> services = new List<ServiceModel>();
 
 
         //Method 1 : Returns web service name and list of endpoints
         // GET: /info
         [HttpGet]
         [Route("/info")]
-        public IEnumerable<string> Info()
+        [Produces("application/json")]
+        public  IActionResult  Info()
         {
-            return new string[] { "Info" };
+            var servicesList = GetServices();
+
+            // return Ok(servicesList,new JsonSerializerSettings());
+            return Ok(servicesList);
+        }
+
+
+        //hard coded name of services 
+        private static List<ServiceModel> GetServices()
+        {
+            var servicesList = new List<ServiceModel>
+            {
+                new ServiceModel
+                {
+                    service = "Service 1"
+                },
+                new ServiceModel
+                {
+                    service = "Service 2"
+                }
+            };
+
+            return servicesList;
         }
 
 
@@ -36,7 +61,7 @@ namespace WebServiceDemo.Controllers
 
 
         //Method 2 : Reads XML DATA and Converts them to JSON 
-        // POST /readXML
+        //readXML
         [HttpGet]
         [Route("/readXML")]
         [Produces("application/json")]
@@ -70,23 +95,8 @@ namespace WebServiceDemo.Controllers
 
 
 
-
-        [HttpPost]
-        [Produces("application/json")]
-        [Route("/saveJSON")]
-        public HttpResponseMessage saveJSON([FromBody] ServiceModel model)
-        {
-
-            if(ModelState.IsValid && model != null)
-            {
-                model.service = HttpUtility.HtmlEncode(model.service);
-                model.date = DateTime.Now;
-            }
-            return new HttpResponseMessage(HttpStatusCode.OK);
-
-
-
-        }
+        
 
     }
+
 }
